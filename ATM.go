@@ -4,17 +4,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/manifoldco/promptui"
 	"os"
 	"time"
 )
 
 type transaction struct {
-	Name     string
-	Action   string
-	Amount   float32
-	Created  time.Time
-	Actioned time.Time
-	Edited   time.Time
+	Name    string
+	Action  string
+	Amount  float32
+	Created time.Time
+	Edited  time.Time
 }
 
 type Transactions []transaction
@@ -44,18 +44,41 @@ func (t *Transactions) Init(fileName string) error {
 }
 
 func (t *Transactions) Refresh(fileName string) error {
-	// Delete File
-	if err := os.Remove(fileName); err != nil {
+	/*
+		Ask if you want to refresh
+		If no
+			err = Usr Canceled
+			return error
+	*/
+
+	const refreshMsg = "Refreshing the account data. \n WARNING THIS WILL DELETE ALL DATA! \n DO YOU WANT TO CONTINUE? \n "
+	fmt.Print(refreshMsg)
+	prompt := promptui.Select{
+		Label: "[Yes/No]",
+		Items: []string{"Yes", "No"},
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
 		return err
 	}
 
-	data := ``
-	//Create File
-	if err := os.WriteFile(fileName, []byte(data), 0644); err != nil {
-		return err
+	if result == "Yes" {
+		// Delete File
+		if err := os.Remove(fileName); err != nil {
+			return err
+		}
+
+		//Create File
+		data := ``
+		if err := os.WriteFile(fileName, []byte(data), 0644); err != nil {
+			return err
+		}
+		return nil
+	} else {
+		return fmt.Errorf("⚠️ user has canceled the action")
 	}
 
-	return nil
 }
 
 func (t *Transactions) Add(name string, amount float32) {

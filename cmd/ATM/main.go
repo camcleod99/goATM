@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+// Initialize custom values here
+
 const (
 	accountFile = "./data/account.json"
 )
