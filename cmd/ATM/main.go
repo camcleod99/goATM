@@ -67,7 +67,7 @@ func main() {
 		fmt.Printf("Transaction Corrected \n")
 
 	case *remove > 0:
-		err := transactions.Delete(*remove)
+		err := transactions.Remove(*remove)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err.Error())
 			os.Exit(1)

@@ -1,0 +1,29 @@
+TODO - ATM
+
+https://www.youtube.com/watch?v=j1CXoOQXbco
+ - Whatever Table prettier nonsense the tutorial video's on about
+
+ = V1 =
+
+ - Get CREDIT and DEBIT function working
+  - Accept up to two things with a comma separator but require money at least,
+
+ - Get LIST working with a non-pretty version
+  - Then the pretty version
+  - Let’s Get it working as is right now and worry about date sorting in V2
+
+ - Quick Total
+
+ - Writup of README, lol
+
+ = V2 =
+
+ - Query Functions
+
+ - Other Bank functions
+  - Total for Month
+  - Total Between Dates
+
+ - Transfer Between Accounts
+
+ - Look into Encoding for privacy?

@@ -135,7 +135,7 @@ func (t *Transactions) Correct(index int, amount float32) error {
 	return nil
 }
 
-func (t *Transactions) Delete(index int) error {
+func (t *Transactions) Remove(index int) error {
 	ls := *t
 
 	if index <= 0 || index > len(ls) {
