@@ -100,7 +100,7 @@ func (t *Transactions) Debit(name string, amount float32) {
 
 	transaction := transaction{
 		Name:    name,
-		Action:  "debit",
+		Action:  "Debit",
 		Amount:  amount,
 		Created: time.Now(),
 		Edited:  time.Now(),
@@ -113,7 +113,7 @@ func (t *Transactions) Credit(name string, amount float32) {
 
 	transaction := transaction{
 		Name:    name,
-		Action:  "credit",
+		Action:  "Credit",
 		Amount:  amount,
 		Created: time.Now(),
 		Edited:  time.Now(),

@@ -19,6 +19,8 @@ const (
 
 func main() {
 	add := flag.Bool("add", false, "Add a new transaction")
+	credit := flag.Bool("credit", false, "Add a new credit transaction")
+	debit := flag.Bool("debit", false, "Add a new debit transaction")
 	correct := flag.Int("correct", 0, "Correct a transaction")
 	remove := flag.Int("remove", 0, "delete a transaction")
 	refresh := flag.Bool("refresh", false, "Refreshes the account ledger")
@@ -39,6 +41,7 @@ func main() {
 	}
 
 	switch {
+	// Example command -add [name]
 	case *add:
 		name, err := getInput(os.Stdin, flag.Args()...)
 		if err != nil {
@@ -52,6 +55,27 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("Transaction Added \n")
+
+	// Example Command -debit amount, name
+	case *debit:
+		name, err := getInput(os.Stdin, flag.Args()...)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
+		}
+		fmt.Print(name)
+		fmt.Print(err)
+		fmt.Printf("Hit the debit action \n")
+
+	case *credit:
+		name, err := getInput(os.Stdin, flag.Args()...)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
+		}
+		fmt.Print(name)
+		fmt.Print(err)
+		fmt.Printf("Hit the credit action \n")
 
 	case *correct > 0:
 		err := transactions.Correct(*correct, 10.99)
@@ -98,10 +122,12 @@ func main() {
 }
 
 func getInput(r io.Reader, args ...string) (string, error) {
+
 	if len(args) > 0 {
 		return strings.Join(args, " "), nil
 	}
 
+	fmt.Printf("Empty Input, please type in a Command;\n")
 	scanner := bufio.NewScanner(r)
 	scanner.Scan()
 	if err := scanner.Err(); err != nil {
@@ -111,10 +137,8 @@ func getInput(r io.Reader, args ...string) (string, error) {
 	text := scanner.Text()
 
 	if len(text) == 0 {
-		return "", errors.New("input String not valid")
+		return "", errors.New("empty todo is not allowed")
 	}
-
-	// Unwrap here!
 
 	return text, nil
 }
