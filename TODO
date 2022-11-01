@@ -1,12 +1,16 @@
 TODO - ATM
 
+-- Last Line ./ATM/main.go:111
+
 https://www.youtube.com/watch?v=j1CXoOQXbco
  - Whatever Table prettier nonsense the tutorial video's on about
 
  = V1 =
 
- - Get CREDIT and DEBIT function working
-  - Accept up to two things with a comma separator but require money at least,
+ - Get Correct Functioning
+    - Find name from list
+    - Compare name to list
+    - It's working!
 
  - Get LIST working with a non-pretty version
   - Then the pretty version

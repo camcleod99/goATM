@@ -12,7 +12,7 @@ import (
 type transaction struct {
 	Name    string
 	Action  string
-	Amount  float32
+	Amount  string
 	Created time.Time
 	Edited  time.Time
 }
@@ -20,7 +20,6 @@ type transaction struct {
 type Transactions []transaction
 
 func (t *Transactions) Init(fileName string) error {
-
 	// Creates Directory if it doesn't exist
 	_, err := os.Stat("data")
 	if os.IsNotExist(err) {
@@ -44,15 +43,9 @@ func (t *Transactions) Init(fileName string) error {
 }
 
 func (t *Transactions) Refresh(fileName string) error {
-	/*
-		Ask if you want to refresh
-		If no
-			err = Usr Canceled
-			return error
-	*/
-
 	const refreshMsg = "Refreshing the account data. \n WARNING THIS WILL DELETE ALL DATA! \n DO YOU WANT TO CONTINUE? \n "
 	fmt.Print(refreshMsg)
+
 	prompt := promptui.Select{
 		Label: "[Yes/No]",
 		Items: []string{"Yes", "No"},
@@ -78,16 +71,12 @@ func (t *Transactions) Refresh(fileName string) error {
 	} else {
 		return fmt.Errorf("⚠️ user has canceled the action")
 	}
-
 }
 
-func (t *Transactions) Add(name string, amount float32) {
-
-	// Sanity checks here:
-
+func (t *Transactions) Add(name string, amount string, action string) {
 	transaction := transaction{
 		Name:    name,
-		Action:  "-",
+		Action:  action,
 		Amount:  amount,
 		Created: time.Now(),
 		Edited:  time.Now(),
@@ -96,39 +85,14 @@ func (t *Transactions) Add(name string, amount float32) {
 	*t = append(*t, transaction)
 }
 
-func (t *Transactions) Debit(name string, amount float32) {
-
-	transaction := transaction{
-		Name:    name,
-		Action:  "Debit",
-		Amount:  amount,
-		Created: time.Now(),
-		Edited:  time.Now(),
-	}
-
-	*t = append(*t, transaction)
-}
-
-func (t *Transactions) Credit(name string, amount float32) {
-
-	transaction := transaction{
-		Name:    name,
-		Action:  "Credit",
-		Amount:  amount,
-		Created: time.Now(),
-		Edited:  time.Now(),
-	}
-
-	*t = append(*t, transaction)
-}
-
-func (t *Transactions) Correct(index int, amount float32) error {
+func (t *Transactions) Correct(index int, name string, amount string) error {
 	ls := *t
 
 	if index <= 0 || index > len(ls) {
 		return errors.New("invalid Index")
 	}
 
+	ls[index-1].Name = name
 	ls[index-1].Amount = amount
 	ls[index-1].Edited = time.Now()
 
@@ -185,3 +149,10 @@ func (t *Transactions) Print() {
 		fmt.Printf("%d - %s : %g \n", i, transaction.Name, transaction.Amount)
 	}
 }
+
+//func (t *Transactions) Get(*Correct) {
+//	for i, transaction := range *t {
+//		i++
+//		fmt.Printf("%d - %s : %g \n", i, transaction.Name, transaction.Amount)
+//	}
+//}
